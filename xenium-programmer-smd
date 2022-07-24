@@ -40,8 +40,8 @@ programmer_root = os.getcwd()
 
 # Commands
 cmd_jtag =  os.path.join(programmer_root, "xenium-flash/bin/xenium-jtag")
-cmd_jflash =  os.path.join(programmer_root, "xenium-flash/bin/xenium-flash")
-cmd_jverify =  os.path.join(programmer_root, "xenium-flash/bin/xenium-verify")
+cmd_jflash =  os.path.join(programmer_root, "xenium-flash/bin/xenium-flash-smd")
+cmd_jverify =  os.path.join(programmer_root, "xenium-flash/bin/xenium-verify-smd")
 
 # Data Files
 flash_jed = os.path.join(programmer_root, "xenium-bin/xeniumflash.jed")
