@@ -79,38 +79,6 @@ int main(int argc, char** argv)
     // close file
     fin.close(); 
 
-
-// ******************** CHECK XENIUM HARDWARE ***************
-    std::cout << "Detecting Xenium Flash: " << std::flush;
-    flash.ChipReset();
-    std::this_thread::sleep_for (std::chrono::milliseconds(500));
-    uint8_t manufacturer = flash.GetManufacturerID();
-    uint8_t deviceid = flash.GetDeviceID();
-
-    // OpenXenium CPLD brings back 0x55 and 0x5F.. very convenient..
-    if (manufacturer == 0x55 && deviceid == 0x5F)
-    {
-        std::cout << "ERROR\n\n** XENIUM NOT IN BITBUS MODE - Please program " 
-                  << "the \"xeniumflash.jed\" file first! **" << std::endl;
-        return -1;
-    }
-    else if (manufacturer == 0xFF && deviceid == 0xFF)
-    {
-        std::cout << "ERROR\n\n** XENIUM CPLD POSSIBLY BLANK - Please program " 
-                  << "the \"xeniumflash.jed\" file first! **" << std::endl;
-        return -1;
-    }
-    else if (manufacturer != 0x01 || deviceid != 0xC4)
-    {
-        std::cout << "ERROR\n\n** XENIUM FLASH DEVICE NOT FOUND - Manufacturer:" 
-                  << (int) manufacturer << ", Device:" << (int) deviceid << " **\n" << std::endl;
-        return -1;
-    }
-    else
-    {
-        std::cout << "OK [Spansion S29AL016J]" << std::endl; 
-    }
-
 // ********************* FLASH CHIP VERIFY ***************** 
     auto now = std::chrono::steady_clock::now();
     float progress = 0.0;
