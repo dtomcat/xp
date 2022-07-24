@@ -34,23 +34,15 @@ int main(int argc, char** argv)
 {   
     XK::Flash flash;
 
-    std::cout << "---------------------------" << std::endl;
-    std::cout << "Xenium Flashing Tool - v0.2" << std::endl;
-    std::cout << "---------------------------" << std::endl;
+    std::cout << "-----------------------------------" << std::endl;
+    std::cout << "Xenium Flash Verifying Tool - v0.1" << std::endl;
+    std::cout << "-----------------------------------" << std::endl;
 
     if (argc < 2)
     {
         std::cout << "SYNTAX ERROR: Please provide flash BIN file path." << std::endl;
         std::cout << "\tExample: xenium_flash /path/to/file.bin" << std::endl;
         return -1;
-    }
-
-    // if -y supplied after filename, then dont ask to erase/flash
-    bool force = false;
-    if(argc > 2)
-    {
-      std::string cmd2 = argv[2];
-      force = cmd2.compare("-y") == 0;
     }
 
     // need pi hardware revision for timing control..
