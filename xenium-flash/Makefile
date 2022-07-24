@@ -1,4 +1,5 @@
 APP_FLASH=xenium-flash
+APP_VERIFY=xenium-verify
 APP_JTAG=xenium-jtag
 SRC_MAIN=src
 OUT_DIR=bin
@@ -97,6 +98,7 @@ DEFS=$(foreach d, $(DEF), -D$d)
 
 #compile
 MAKE_FLASH = $(CXX) $(CFLAGS) -std=$(CPP_STD) $(DEFS) $(SRC_MAIN)/$(APP_FLASH).cpp $(SOURCES) -o $(OUT_DIR)/$(APP_FLASH) $(INCLUDES) $(PKG_INCS) $(LIB_PATHS) $(LIBS) $(PKG_LIBS)
+MAKE_FLASH = $(CXX) $(CFLAGS) -std=$(CPP_STD) $(DEFS) $(SRC_MAIN)/$(APP_VERIFY).cpp $(SOURCES) -o $(OUT_DIR)/$(APP_FLASH) $(INCLUDES) $(PKG_INCS) $(LIB_PATHS) $(LIBS) $(PKG_LIBS)
 MAKE_JTAG = $(CXX) $(CFLAGS) -std=$(CPP_STD) $(DEFS) $(SRC_MAIN)/$(APP_JTAG).cpp $(SOURCES) -o $(OUT_DIR)/$(APP_JTAG) $(INCLUDES) $(PKG_INCS) $(LIB_PATHS) $(LIBS) $(PKG_LIBS)
 
 all:
@@ -114,4 +116,3 @@ $(APP_JTAG): $(SRC_MAIN)/$(APP_JTAG).cpp
 	
 clean:
 	rm bin -fr
-	
