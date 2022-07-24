@@ -186,36 +186,6 @@ int main(int argc, char** argv)
     std::cout << "\rWriting Flash: DONE (" <<  sec << " Seconds)" << std::endl;
 
 
-// ********************* FLASH CHIP VERIFY ***************** 
-    now = std::chrono::steady_clock::now();
-    progress = 0.0;
-    for (uint32_t i = 0; i < flash_size; i++)
-    {
-        //read byte from flash
-        uint inbyte = flash.Read(i);
-        if (flash_buffer[i] == (char)inbyte)
-        {
-            flash_buffer[i] = inbyte;
-        }
-        else
-        {
-            std::cout << std::endl << "ERROR\n\n** XENIUM FLASH VERIFY FAILED!! **\n" << std::endl;
-            flash.ChipReset();
-            return -1;
-        }
-        
-        float current_progress = (float) i / flash_size * 100.0f;
-        if (current_progress > progress + 1)
-        {
-            progress = current_progress;
-            std::cout << "\rVerifying Flash: " << std::fixed << std::setprecision(0) 
-                      << progress << "%              " << std::flush;
-        }
-    }
-    elapsed = std::chrono::steady_clock::now() - now;
-    sec = std::chrono::duration_cast<std::chrono::seconds>(elapsed).count();
-    std::cout << "\rVerifying Flash: DONE (" <<  sec << " Seconds)" << std::endl;
-
 // you can uncomment this code if you wish to dump to file from xenium 
     // //write to file
     // std::string outfile = "flash.bin";
