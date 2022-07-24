@@ -98,17 +98,22 @@ DEFS=$(foreach d, $(DEF), -D$d)
 
 #compile
 MAKE_FLASH = $(CXX) $(CFLAGS) -std=$(CPP_STD) $(DEFS) $(SRC_MAIN)/$(APP_FLASH).cpp $(SOURCES) -o $(OUT_DIR)/$(APP_FLASH) $(INCLUDES) $(PKG_INCS) $(LIB_PATHS) $(LIBS) $(PKG_LIBS)
-MAKE_FLASH = $(CXX) $(CFLAGS) -std=$(CPP_STD) $(DEFS) $(SRC_MAIN)/$(APP_VERIFY).cpp $(SOURCES) -o $(OUT_DIR)/$(APP_VERIFY) $(INCLUDES) $(PKG_INCS) $(LIB_PATHS) $(LIBS) $(PKG_LIBS)
+MAKE_VERIFY = $(CXX) $(CFLAGS) -std=$(CPP_STD) $(DEFS) $(SRC_MAIN)/$(APP_VERIFY).cpp $(SOURCES) -o $(OUT_DIR)/$(APP_VERIFY) $(INCLUDES) $(PKG_INCS) $(LIB_PATHS) $(LIBS) $(PKG_LIBS)
 MAKE_JTAG = $(CXX) $(CFLAGS) -std=$(CPP_STD) $(DEFS) $(SRC_MAIN)/$(APP_JTAG).cpp $(SOURCES) -o $(OUT_DIR)/$(APP_JTAG) $(INCLUDES) $(PKG_INCS) $(LIB_PATHS) $(LIBS) $(PKG_LIBS)
 
 all:
 	test -d bin || mkdir -p bin
 	$(MAKE_JTAG)
 	$(MAKE_FLASH)
+	$(MAKE_VERIFY)
 
 $(APP_FLASH): $(SRC_MAIN)/$(APP_FLASH).cpp 
 	test -d bin || mkdir -p bin
 	$(MAKE_FLASH)
+
+$(APP_VERIFY): $(SRC_MAIN)/$(APP_VERIFY).cpp 
+	test -d bin || mkdir -p bin
+	$(MAKE_VERIFY)
 	
 $(APP_JTAG): $(SRC_MAIN)/$(APP_JTAG).cpp 
 	test -d bin || mkdir -p bin
