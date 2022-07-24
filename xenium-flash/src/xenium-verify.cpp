@@ -120,8 +120,8 @@ int main(int argc, char** argv)
     }
 
 // ********************* FLASH CHIP VERIFY ***************** 
-    now = std::chrono::steady_clock::now();
-    progress = 0.0;
+    auto now = std::chrono::steady_clock::now();
+    float progress = 0.0;
     for (uint32_t i = 0; i < flash_size; i++)
     {
         //read byte from flash
@@ -145,8 +145,8 @@ int main(int argc, char** argv)
                       << progress << "%              " << std::flush;
         }
     }
-    elapsed = std::chrono::steady_clock::now() - now;
-    sec = std::chrono::duration_cast<std::chrono::seconds>(elapsed).count();
+    auto elapsed = std::chrono::steady_clock::now() - now;
+    uint32_t sec = std::chrono::duration_cast<std::chrono::seconds>(elapsed).count();
     std::cout << "\rVerifying Flash: DONE (" <<  sec << " Seconds)" << std::endl;
 
 // you can uncomment this code if you wish to dump to file from xenium 
