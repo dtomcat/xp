@@ -35,7 +35,7 @@ int main(int argc, char** argv)
     XK::Flash flash;
 
     std::cout << "---------------------------" << std::endl;
-    std::cout << "Xenium Flashing Tool - v0.1" << std::endl;
+    std::cout << "Xenium Flashing Tool - v0.2" << std::endl;
     std::cout << "---------------------------" << std::endl;
 
     if (argc < 2)
