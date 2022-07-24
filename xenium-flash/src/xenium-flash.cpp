@@ -197,9 +197,6 @@ int main(int argc, char** argv)
     // clear out flash memory.
     delete[] flash_buffer;
 
-    //reset to turn LED blue..
-    flash.ChipReset();
-
     std::cout << std::endl << "Xenium Flash SUCCESS!!" << std::endl << std::endl;
 
     return 0;
