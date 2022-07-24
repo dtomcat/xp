@@ -1,5 +1,5 @@
 APP_FLASH=xenium-flash
-APP_FLASHSMDd=xenium-flash-smd
+APP_FLASHSMD=xenium-flash-smd
 APP_VERIFY=xenium-verify-smd
 APP_JTAG=xenium-jtag
 SRC_MAIN=src
