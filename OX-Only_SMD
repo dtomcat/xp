@@ -21,7 +21,7 @@
 
 import os
 import subprocess
-from gpiozero import LED
+import RPi.GPIO as GPIO
 import time
 
 print("▒██   ██▒▓█████  ███▄    █  ██▓ █    ██  ███▄ ▄███▓")
@@ -49,52 +49,84 @@ xenium_os = os.path.join(programmer_root, "xenium-bin/xenium_blue.bin")
 xenium_jed= os.path.join(programmer_root, "xenium-bin/openxenium.jed")
 
 # LED Pins
-Gled = LED(19)
-Yled = LED(6)
-Rled = LED(7)
-S1led = LED(10)
-S2led = LED(9)
-S3led = LED(11)
-S4led = LED(26)
+led1 = 19
+led2 = 6
+led3 = 7
+S1led = 10
+S2led = 9
+S3led = 11
+S4led = 26
 
 def set_ok():
-    Gled.on()
-    Yled.off()
-    Rled.off()
+    GPIO.output(led1, GPIO.HIGH)
+    GPIO.output(led2, GPIO.LOW)
+    GPIO.output(led3, GPIO.LOW)
 
 def set_busy():
-    Gled.off()
-    Yled.on()
-    Rled.off()
+    GPIO.output(led1, GPIO.LOW)
+    GPIO.output(led2, GPIO.HIGH)
+    GPIO.output(led3, GPIO.LOW)
 
 def set_error():
-    Gled.off()
-    Yled.off()
-    Rled.on()
+    GPIO.output(led1, GPIO.LOW)
+    GPIO.output(led2, GPIO.LOW)
+    GPIO.output(led3, GPIO.HIGH)
 
 def S1():
-    S1led.on()
-    S2led.off()
-    S3led.off()
-    S4led.off()
-
+    GPIO.output(S1led, GPIO.HIGH)
+    GPIO.output(S2led, GPIO.LOW)
+    GPIO.output(S3led, GPIO.LOW)
+    GPIO.output(S4led, GPIO.LOW)
+    
 def S2():
-    S1led.off()
-    S2led.on()
-    S3led.off()
-    S4led.off()
-
+    GPIO.output(S1led, GPIO.LOW)
+    GPIO.output(S2led, GPIO.HIGH)
+    GPIO.output(S3led, GPIO.LOW)
+    GPIO.output(S4led, GPIO.LOW)
+    
 def S3():
-    S1led.off()
-    S2led.off()
-    S3led.on()
-    S4led.off()
+    GPIO.output(S1led, GPIO.LOW)
+    GPIO.output(S2led, GPIO.LOW)
+    GPIO.output(S3led, GPIO.HIGH)
+    GPIO.output(S4led, GPIO.LOW)
     
 def S4():
-    S1led.off()
-    S2led.off()
-    S3led.off()
-    S4led.on()
+    GPIO.output(S1led, GPIO.LOW)
+    GPIO.output(S2led, GPIO.LOW)
+    GPIO.output(S3led, GPIO.LOW)
+    GPIO.output(S4led, GPIO.HIGH)
+    
+def set_init():
+    GPIO.output(led1, GPIO.HIGH)
+    time.sleep(0.1)
+    GPIO.output(led2, GPIO.HIGH)
+    time.sleep(0.1)
+    GPIO.output(led3, GPIO.HIGH)
+    time.sleep(0.1)
+    GPIO.output(S1led, GPIO.HIGH)
+    time.sleep(0.1)
+    GPIO.output(S2led, GPIO.HIGH)
+    time.sleep(0.1)
+    GPIO.output(S3led, GPIO.HIGH)
+    time.sleep(0.1)
+    GPIO.output(S4led, GPIO.HIGH)
+    time.sleep(0.1)
+
+#using Broadcom pin numbering.
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+
+#setup pin as output
+GPIO.setup(led1, GPIO.OUT)
+GPIO.setup(led2, GPIO.OUT)
+GPIO.setup(led3, GPIO.OUT)
+GPIO.setup(S1led, GPIO.OUT)
+GPIO.setup(S2led, GPIO.OUT)
+GPIO.setup(S3led, GPIO.OUT)
+GPIO.setup(S4led, GPIO.OUT)
+
+set_init()
+
 
 set_busy()
 S4()
@@ -105,6 +137,7 @@ print("---------------------------------------------", flush=True)
 sub_proc = subprocess.run([cmd_jtag, xenium_jed])
 if sub_proc.returncode == 0:
     set_ok()
+    GPIO.output(S4led, GPIO.LOW)
         
 else:
     print("ERROR Programming the Xilinx CPLD!")
