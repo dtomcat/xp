@@ -1,0 +1,62 @@
+#!/usr/bin/python3
+
+from gpiozero import LED, Button
+from signal import pause
+import os
+import time
+
+Gled = LED(19)
+Yled = LED(6)
+Rled = LED(7)
+Gled.on()
+Yled.off()
+Rled.off()
+
+def ledsOff():
+    Gled.off()
+    Yled.off()
+    Rled.off()
+
+def shutdownButton():
+    Gled.on()
+    Yled.on()
+    Rled.on()
+    time.sleep(1)
+    Rled.off()
+    time.sleep(1)
+    Yled.off()
+    time.sleep(1)
+    Gled.off()
+    cmd = "sudo shutdown -h now"
+    os.system(cmd)
+
+def clearError():
+    Rled.off()
+    Yled.off()
+    
+def complete_Program():
+    ledsOff
+    print("Programming Xenium")
+    os.popen('/home/pi/xp/xenium-programmer-pi').read()
+    Gled.on()
+    print("Ready to go again!")
+
+def onlyOpenXenium_Program():
+    ledsOff
+    print("Programming openXenium.jed to Xenium")
+    os.popen('/home/pi/xp/xpi-only').read()
+    Gled.on()
+    print("Ready to go again!")
+
+
+button1 = Button(13)
+button2 = Button(5)
+button3 = Button(25)
+button4 = Button(24)
+
+button1.when_released = complete_Program
+button2.when_released = onlyOpenXenium_Program
+button3.when_released = clearError
+button4.when_held = shutdownButton
+
+pause()
