@@ -1,0 +1,115 @@
+#!/usr/bin/python3
+
+
+# Python wrapper for Xenium programming using Pi-ZeroW PC-Board
+#
+# Copyright (C) 2019 Koos du Preez (kdupreez@hotmail.com)
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+import os
+import subprocess
+from gpiozero import LED
+import time
+
+print("▒██   ██▒▓█████  ███▄    █  ██▓ █    ██  ███▄ ▄███▓")
+print("▒▒ █ █ ▒░▓█   ▀  ██ ▀█   █ ▓██▒ ██  ▓██▒▓██▒▀█▀ ██▒")
+print("░░  █   ░▒███   ▓██  ▀█ ██▒▒██▒▓██  ▒██░▓██    ▓██░")
+print(" ░ █ █ ▒ ▒▓█  ▄ ▓██▒  ▐▌██▒░██░▓▓█  ░██░▒██    ▒██ ")
+print("▒██▒ ▒██▒░▒████▒▒██░   ▓██░░██░▒▒█████▓ ▒██▒   ░██▒")
+print("▒▒ ░ ░▓ ░░░ ▒░ ░░ ▒░   ▒ ▒ ░▓  ░▒▓▒ ▒ ▒ ░ ▒░   ░  ░")
+print("░░   ░▒ ░ ░ ░  ░░ ░░   ░ ▒░ ▒ ░░░▒Programmer░     ░")
+print(" ░    ░     ░      ░   ░ ░  ▒kooscode@github   ░   ")
+print(" ░    ░     ░  ░         ░  ░     ░            ░   ", flush=True)
+
+
+# git root folder.
+programmer_root = os.getcwd()
+
+# Commands
+cmd_jtag =  os.path.join(programmer_root, "xenium-flash/bin/xenium-jtag")
+cmd_jflash =  os.path.join(programmer_root, "xenium-flash/bin/xenium-flash-smd")
+cmd_jverify =  os.path.join(programmer_root, "xenium-flash/bin/xenium-verify-smd")
+
+# Data Files
+flash_jed = os.path.join(programmer_root, "xenium-bin/xeniumflash.jed")
+xenium_os = os.path.join(programmer_root, "xenium-bin/xenium_blue.bin")
+xenium_jed= os.path.join(programmer_root, "xenium-bin/openxenium.jed")
+
+# LED Pins
+Gled = LED(19)
+Yled = LED(6)
+Rled = LED(7)
+S1led = LED(10)
+S2led = LED(9)
+S3led = LED(11)
+S4led = LED(26)
+
+def set_ok():
+    Gled.on()
+    Yled.off()
+    Rled.off()
+
+def set_busy():
+    Gled.off()
+    Yled.on()
+    Rled.off()
+
+def set_error():
+    Gled.off()
+    Yled.off()
+    Rled.on()
+
+def set_Stage(stage)
+    match stage:
+        case 1:
+            S1led.on()
+            S2led.off()
+            S3led.off()
+            S4led.off()
+        case 2:
+            S1led.off()
+            S2led.on()
+            S3led.off()
+            S4led.off()
+        case 3:
+            S1led.off()
+            S2led.off()
+            S3led.on()
+            S4led.off()
+        case 4:
+            S1led.off()
+            S2led.off()
+            S3led.off()
+            S4led.on()
+        case _:
+            S1led.on()
+            S2led.on()
+            S3led.on()
+            S4led.on()
+
+set_busy()
+# Program CPLD with OpenXenium Firmware.
+print("---------------------------------------------")
+print("PROGRAMMING XILINX CPLD: OPEN XENIUM FIRMWARE")
+print("---------------------------------------------", flush=True)
+sub_proc = subprocess.run([cmd_jtag, xenium_jed])
+if sub_proc.returncode == 0:
+    set_ok()
+        
+else:
+    print("ERROR Programming the Xilinx CPLD!")
+    print("Please double check your JTAG connection and wires!", flush=True)
+    set_error()   
