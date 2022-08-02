@@ -72,35 +72,32 @@ def set_error():
     Yled.off()
     Rled.on()
 
-def set_Stage(stage)
-    match stage:
-        case 1:
-            S1led.on()
-            S2led.off()
-            S3led.off()
-            S4led.off()
-        case 2:
-            S1led.off()
-            S2led.on()
-            S3led.off()
-            S4led.off()
-        case 3:
-            S1led.off()
-            S2led.off()
-            S3led.on()
-            S4led.off()
-        case 4:
-            S1led.off()
-            S2led.off()
-            S3led.off()
-            S4led.on()
-        case _:
-            S1led.on()
-            S2led.on()
-            S3led.on()
-            S4led.on()
+def S1():
+    S1led.on()
+    S2led.off()
+    S3led.off()
+    S4led.off()
+
+def S2():
+    S1led.off()
+    S2led.on()
+    S3led.off()
+    S4led.off()
+
+def S3:
+    S1led.off()
+    S2led.off()
+    S3led.on()
+    S4led.off()
+    
+def S4:
+    S1led.off()
+    S2led.off()
+    S3led.off()
+    S4led.on()
 
 set_busy()
+S4()
 # Program CPLD with OpenXenium Firmware.
 print("---------------------------------------------")
 print("PROGRAMMING XILINX CPLD: OPEN XENIUM FIRMWARE")
