@@ -21,7 +21,7 @@
 
 import os
 import subprocess
-import RPi.GPIO as GPIO
+from gpiozero import LED
 import time
 
 print("▒██   ██▒▓█████  ███▄    █  ██▓ █    ██  ███▄ ▄███▓")
@@ -159,5 +159,3 @@ else:
     print("ERROR Programming the Xilinx CPLD!")
     print("Please double check your JTAG connection and wires!", flush=True)     
 
-# # cleanup GPIO
-# GPIO.cleanup()
