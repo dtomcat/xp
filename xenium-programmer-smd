@@ -72,37 +72,33 @@ def set_error():
     Yled.off()
     Rled.on()
 
-def set_Stage(stage)
-    match stage:
-        case 1:
-            S1led.on()
-            S2led.off()
-            S3led.off()
-            S4led.off()
-        case 2:
-            S1led.off()
-            S2led.on()
-            S3led.off()
-            S4led.off()
-        case 3:
-            S1led.off()
-            S2led.off()
-            S3led.on()
-            S4led.off()
-        case 4:
-            S1led.off()
-            S2led.off()
-            S3led.off()
-            S4led.on()
-        case _:
-            S1led.on()
-            S2led.on()
-            S3led.on()
-            S4led.on()
+def S1():
+    S1led.on()
+    S2led.off()
+    S3led.off()
+    S4led.off()
+
+def S2():
+    S1led.off()
+    S2led.on()
+    S3led.off()
+    S4led.off()
+
+def S3:
+    S1led.off()
+    S2led.off()
+    S3led.on()
+    S4led.off()
+    
+def S4:
+    S1led.off()
+    S2led.off()
+    S3led.off()
+    S4led.on()
 
 # Program CPLD with BitBus Flash Writer code.
 set_busy()
-set_stage(1)
+S1()
 print("-------------------------------------")
 print("PROGRAMMING XILINX CPLD: BITBUS BRIDGE")
 print("--------------------------------------", flush=True)
@@ -112,7 +108,7 @@ if sub_proc.returncode == 0:
 
     # Write OpenXenium OS to Flash Chip
     set_busy()
-    set_stage(2)
+    S2()
     print("-----------------------------")
     print("PROGRAMMING FLASH : XENIUM OS")
     print("-----------------------------", flush=True)
@@ -121,7 +117,7 @@ if sub_proc.returncode == 0:
         set_ok()
 
         set_busy()
-        set_stage(3)
+        S3()
         # Verify OpenXenium OS on Flash Chip
         print("---------------------------")
         print("VERIFYING FLASH: XENIUM OS")
@@ -131,7 +127,7 @@ if sub_proc.returncode == 0:
             set_ok()
 
             set_busy()
-            set_stage(4)
+            S4()
             # Program CPLD with OpenXenium Firmware.
             print("---------------------------------------------")
             print("PROGRAMMING XILINX CPLD: OPEN XENIUM FIRMWARE")
