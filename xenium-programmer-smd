@@ -84,13 +84,13 @@ def S2():
     S3led.off()
     S4led.off()
 
-def S3:
+def S3():
     S1led.off()
     S2led.off()
     S3led.on()
     S4led.off()
     
-def S4:
+def S4():
     S1led.off()
     S2led.off()
     S3led.off()
