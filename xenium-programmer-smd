@@ -166,6 +166,7 @@ if sub_proc.returncode == 0:
             sub_proc = subprocess.run([cmd_jtag, xenium_jed])
             if sub_proc.returncode == 0:
                 set_ok()
+                GPIO.output(S4led, GPIO.LOW)
         
             else:
                 print("ERROR Programming the Xilinx CPLD!")
