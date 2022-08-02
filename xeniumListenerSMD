@@ -56,7 +56,7 @@ def complete_Program():
 def onlyOpenXenium_Program():
     ledsOff
     print("Programming openXenium.jed to Xenium")
-    os.popen('/home/pi/xp/xpi-only').read()
+    os.popen('/home/pi/xp/OX-Only_SMD').read()
     Gled.on()
     print("Ready to go again!")
 
