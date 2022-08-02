@@ -49,46 +49,60 @@ xenium_os = os.path.join(programmer_root, "xenium-bin/xenium_blue.bin")
 xenium_jed= os.path.join(programmer_root, "xenium-bin/openxenium.jed")
 
 # LED Pins
-led1 = 19
-led2 = 6
-led3 = 7
+Gled = LED(19)
+Yled = LED(6)
+Rled = LED(7)
+S1led = LED(10)
+S2led = LED(9)
+S3led = LED(11)
+S4led = LED(26)
 
 def set_ok():
-    GPIO.output(led1, GPIO.HIGH)
-    GPIO.output(led2, GPIO.LOW)
-    GPIO.output(led3, GPIO.LOW)
+    Gled.on()
+    Yled.off()
+    Rled.off()
 
 def set_busy():
-    GPIO.output(led1, GPIO.LOW)
-    GPIO.output(led2, GPIO.HIGH)
-    GPIO.output(led3, GPIO.LOW)
+    Gled.off()
+    Yled.on()
+    Rled.off()
 
 def set_error():
-    GPIO.output(led1, GPIO.LOW)
-    GPIO.output(led2, GPIO.LOW)
-    GPIO.output(led3, GPIO.HIGH)
+    Gled.off()
+    Yled.off()
+    Rled.on()
 
-def set_init():
-    GPIO.output(led1, GPIO.HIGH)
-    time.sleep(0.1)
-    GPIO.output(led2, GPIO.HIGH)
-    time.sleep(0.1)
-    GPIO.output(led3, GPIO.HIGH)
-    time.sleep(0.1)
-
-#using Broadcom pin numbering.
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
-
-#setup pin as output
-GPIO.setup(led1, GPIO.OUT)
-GPIO.setup(led2, GPIO.OUT)
-GPIO.setup(led3, GPIO.OUT)
-
-set_init()
+def set_Stage(stage)
+    match stage:
+        case 1:
+            S1led.on()
+            S2led.off()
+            S3led.off()
+            S4led.off()
+        case 2:
+            S1led.off()
+            S2led.on()
+            S3led.off()
+            S4led.off()
+        case 3:
+            S1led.off()
+            S2led.off()
+            S3led.on()
+            S4led.off()
+        case 4:
+            S1led.off()
+            S2led.off()
+            S3led.off()
+            S4led.on()
+        case _:
+            S1led.on()
+            S2led.on()
+            S3led.on()
+            S4led.on()
 
 # Program CPLD with BitBus Flash Writer code.
 set_busy()
+set_stage(1)
 print("-------------------------------------")
 print("PROGRAMMING XILINX CPLD: BITBUS BRIDGE")
 print("--------------------------------------", flush=True)
@@ -98,6 +112,7 @@ if sub_proc.returncode == 0:
 
     # Write OpenXenium OS to Flash Chip
     set_busy()
+    set_stage(2)
     print("-----------------------------")
     print("PROGRAMMING FLASH : XENIUM OS")
     print("-----------------------------", flush=True)
@@ -106,6 +121,7 @@ if sub_proc.returncode == 0:
         set_ok()
 
         set_busy()
+        set_stage(3)
         # Verify OpenXenium OS on Flash Chip
         print("---------------------------")
         print("VERIFYING FLASH: XENIUM OS")
@@ -115,6 +131,7 @@ if sub_proc.returncode == 0:
             set_ok()
 
             set_busy()
+            set_stage(4)
             # Program CPLD with OpenXenium Firmware.
             print("---------------------------------------------")
             print("PROGRAMMING XILINX CPLD: OPEN XENIUM FIRMWARE")
