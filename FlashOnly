@@ -146,6 +146,7 @@ if sub_proc.returncode == 0:
     sub_proc = subprocess.run([cmd_jverify, xenium_os, "-y"])
     if sub_proc.returncode == 0:
         set_ok()
+        GPIO.output(S4led, GPIO.LOW)
         
     else:
         set_error()
