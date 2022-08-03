@@ -74,7 +74,7 @@ button4 = Button(24)
 
 button1.when_released = complete_Program
 button2.when_released = onlyOpenXenium_Program
-button3.when_release = onlyFlash_Program
+button3.when_released = onlyFlash_Program
 button3.when_held = clearError
 button4.when_held = shutdownButton
 
